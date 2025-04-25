@@ -1,26 +1,34 @@
+from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
-from supabase import create_client, Client
-
+import logging
 
 load_dotenv()
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY")
 
+if not SUPABASE_URL:
+    raise ValueError("SUPABASE_URL environment variable must be set.")
+if not SUPABASE_ANON_KEY:
+    raise ValueError("SUPABASE_ANON_KEY environment variable must be set.")
 
-def get_supabase_client() -> Client:
-    """
-    Establishes and returns a Supabase client.
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-    Returns:
-        Client: A Supabase client instance.
-    Raises:
-        ValueError: If SUPABASE_URL or SUPABASE_KEY are not set.
-    """
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        raise ValueError("Supabase URL and Key must be set in .env file")
-    return create_client(SUPABASE_URL, SUPABASE_KEY)
+def get_supabase_client():
+    return supabase
 
-
-supabase: Client = get_supabase_client()
+def check_database_connection():
+    try:
+        # Simple query to check the connection (it could also be any simple query)
+        response = supabase.from_("programs").select("id").limit(1).execute()
+        
+        if response.error:
+            logging.error(f"Database connection failed: {response.error}")
+            return False
+        else:
+            logging.info("Database connection successful.")
+            return True
+    except Exception as e:
+        logging.error(f"Database connection error: {e}")
+        return False
