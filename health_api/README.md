@@ -1,51 +1,59 @@
 # 🏥 Health API Backend
 
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Uvicorn](https://img.shields.io/badge/Uvicorn-8DE05F?style=for-the-badge&logo=uvicorn)](https://www.uvicorn.org/)
 
 This directory houses the backend API for the Basic Health Information System, crafted with 🐍 Python and the 🚀 FastAPI framework.
 
+---
+
 ## ⚙️ Overview
 
-The Health API serves as a robust and efficient RESTful interface, enabling the management of vital healthcare data: programs, clients, and their enrollments. It communicates seamlessly with a 💾 Supabase PostgreSQL database, ensuring data integrity and scalability for our health information needs.
+The Health API serves as a robust and efficient RESTful interface, enabling the management of vital healthcare data: programs, clients, and their enrollments.  
+It communicates seamlessly with a 💾 Supabase PostgreSQL database, ensuring data integrity and scalability for our health information needs.
+
+---
 
 ## 💻 Tech Stack
 
-* 🐍 **Language:** Python 3.9+
-* 🚀 **Framework:** [FastAPI](https://fastapi.tiangolo.com/) - A modern, fast (high-performance) web framework for building APIs with Python.
-* ⚙️ **ASGI Server:** [Uvicorn](https://www.uvicorn.org/) - An ASGI web server implementation for running FastAPI applications.
-* 💾 **Database Interaction:** [Likely a Supabase client library - update if you know the specific one] - Facilitates smooth interaction with the Supabase PostgreSQL database.
-* 📦 **Dependency Management:** `pip`
+- 🐍 **Language:** Python 3.9+
+- 🚀 **Framework:** [FastAPI](https://fastapi.tiangolo.com/) - A modern, high-performance web framework for building APIs with Python.
+- ⚙️ **ASGI Server:** [Uvicorn](https://www.uvicorn.org/) - An ASGI web server implementation for running FastAPI applications.
+- 💾 **Database Interaction:** Supabase PostgreSQL client libraries (update if specific one is used).
+- 📦 **Dependency Management:** `pip`
+
+---
 
 ## 📂 Directory Structure
 
-To provide a clear roadmap of the backend organization, here's the file structure:
-
+```text
 Health_api/
 ├── app/
-│   ├── init.py
-│   ├── main.py         # 🚀 Main application entry point (defines the FastAPI app)
-│   ├── database.py     # ⚙️ Configuration and utility functions for database connection
+│   ├── __init__.py
+│   ├── main.py          # 🚀 Main application entry point (defines the FastAPI app)
+│   ├── database.py      # ⚙️ Database connection configuration
 │   ├── clients/
-│   │   ├── init.py
-│   │   ├── models.py   # 📝 Pydantic models defining client data structures
-│   │   ├── api.py      # ➡️ FastAPI routes and endpoint logic for clients
-│   │   └── utils.py    # (Optional) 🛠️ Helper functions specific to client operations
+│   │   ├── __init__.py
+│   │   ├── models.py    # 📝 Pydantic models for client data
+│   │   ├── api.py       # ➡️ FastAPI routes for clients
+│   │   └── utils.py     # (Optional) 🛠️ Helper functions for clients
 │   ├── programs/
-│   │   ├── init.py
-│   │   ├── models.py   # 📝 Pydantic models defining health program data structures
-│   │   ├── api.py      # ➡️ FastAPI routes and endpoint logic for programs
-│   │   └── utils.py    # (Optional) 🛠️ Helper functions specific to program operations
+│   │   ├── __init__.py
+│   │   ├── models.py    # 📝 Pydantic models for health programs
+│   │   ├── api.py       # ➡️ FastAPI routes for programs
+│   │   └── utils.py     # (Optional) 🛠️ Helper functions for programs
 │   ├── enrollments/
-│   │   ├── init.py
-│   │   ├── models.py   # 📝 Pydantic models defining enrollment data structures
-│   │   ├── api.py      # ➡️ FastAPI routes and endpoint logic for enrollments
-│   │   └── utils.py    # (Optional) 🛠️ Helper functions specific to enrollment operations
-│   └── schemas.py      # (Optional) ✅ Pydantic schemas for request and response validation
-├── requirements.txt    # 📦 List of Python dependencies required to run the API
-└── README.md           # ℹ️ This file - providing essential information about the backend
+│   │   ├── __init__.py
+│   │   ├── models.py    # 📝 Pydantic models for enrollments
+│   │   ├── api.py       # ➡️ FastAPI routes for enrollments
+│   │   └── utils.py     # (Optional) 🛠️ Helper functions for enrollments
+│   └── schemas.py       # (Optional) ✅ Pydantic schemas for validation
+├── requirements.txt      # 📦 Python dependencies
+└── README.md              # ℹ️ Project documentation
 
+```
 
 ## 🛠️ Setup and Installation
 
