@@ -23,7 +23,7 @@ def create_enrollment(enrollment: schemas.EnrollmentCreate):
         created_enrollments = response.data
 
         # Check for client existence
-        client_response = supabase.table("clients").select("*").eq("id", client_id).execute()
+        client_response = supabase.table("clients").select("*").eq("id", client_id).single().execute()
         if not client_response.data:
             raise HTTPException(status_code=400, detail="Invalid client ID: Client does not exist.")
         
@@ -34,10 +34,13 @@ def create_enrollment(enrollment: schemas.EnrollmentCreate):
 
         # Combine program and client information for the created enrollments
         for created_enrollment in created_enrollments:
-            created_enrollment["client"] = client_response.data[0]
-            created_enrollment["programs"] = [
-                program for program in program_response.data if program["id"] == created_enrollment["program_id"]
-            ]
+            created_enrollment["client"] = client_response.data
+            created_enrollment["program"] = next(
+                (program for program in program_response.data if program["id"] == created_enrollment["program_id"]),
+                None
+            )
+            if created_enrollment["program"] is None:
+                raise HTTPException(status_code=400, detail="Program not found for enrollment.")
 
         return created_enrollments
 

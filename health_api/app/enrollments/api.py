@@ -10,6 +10,4 @@ def create_enrollment(enrollment: schemas.EnrollmentCreate):
         created_enrollment = services.create_enrollment(enrollment)
         return created_enrollment
     except Exception as e:
-        raise e
-    except Exception as e:
         raise HTTPException(status_code=500, detail="An unexpected error occurred: " + str(e))
