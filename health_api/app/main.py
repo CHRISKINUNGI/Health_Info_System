@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.programs import api as programs_api
 from app.clients import api as clients_api
 from app.enrollments import api as enrollments_api
+from app.search import api as search_api
 
 def create_app():
     app = FastAPI(
@@ -25,6 +26,7 @@ def create_app():
     app.include_router(programs_api.router, prefix="/api/v1", tags=["Programs"])
     app.include_router(clients_api.router, prefix="/api/v1", tags=["Clients"])
     app.include_router(enrollments_api.router, prefix="/api/v1", tags=["Enrollments"])
+    app.include_router(search_api.router, prefix="/api/v1", tags=["Search"])
 
     return app
 
