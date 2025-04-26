@@ -1,8 +1,9 @@
 # Health_api/app/clients/services.py
 
 from typing import List
-from . import models, schemas
 from ..database import supabase
+from app.programs.models import ProgramBase
+from . import models, schemas
 from datetime import datetime
 
 def check_existing_client_by_name(first_name: str, last_name: str) -> models.Client | None:
@@ -17,7 +18,7 @@ def create_new_client(client: schemas.ClientCreate) -> models.Client:
     if existing_client:
         raise Exception(f"Client with name '{client.first_name} {client.last_name}' already exists.")
 
-    new_client = client.dict()
+    new_client = client.model_dump()
     for key, value in new_client.items():
         if isinstance(value, datetime):
             new_client[key] = value.isoformat()
@@ -32,6 +33,7 @@ def create_new_client(client: schemas.ClientCreate) -> models.Client:
     if len(data) > 0:
         return models.Client(**data[0])
     raise Exception("No data returned when creating client.")
+
 def get_all_clients(skip: int = 0, limit: int = 100) -> List[schemas.Client]:
     response = supabase.table("clients").select("*").range(skip, skip + limit - 1).execute()
 
@@ -49,14 +51,45 @@ def get_all_clients(skip: int = 0, limit: int = 100) -> List[schemas.Client]:
         
     return clients
 
-def get_client_profile(client_id: int):
-    """
-    Fetch the client profile by its ID from the database.
-    """
-    client = models.Client.query.filter_by(id=client_id).first()
-    if client:
+def get_client_profile(client_id: str) -> schemas.Client | None:
+    try:
+        # Fetch the client data
+        client_response = supabase.table("clients").select("*").eq("id", client_id).single().execute()
+
+        if not client_response.data:
+            return None  # Client not found
+
+        client_data = client_response.data
+
+        # Fetch enrollments for this client
+        enrollment_response = supabase.table("enrollments").select("program_id").eq("client_id", client_id).execute()
+        enrollment_data = enrollment_response.data
+
+        if not enrollment_data:
+            enrolled_programs = []
+        else:
+            program_ids = [enrollment["program_id"] for enrollment in enrollment_data]
+
+            # Fetch program details
+            programs_response = supabase.table("programs").select("*").in_("id", program_ids).execute()
+            enrolled_programs = programs_response.data if programs_response.data else []
+
+        # Build the final client with programs
+        client = schemas.Client(
+            **client_data,
+            programs=enrolled_programs
+        )
+
         return client
-    return None
+
+    except Exception as e:
+        error_detail = str(e)
+        if "PGRST116" in error_detail:
+            # Specific Supabase "no rows found" error
+            return None
+        # Unexpected error, re-raise
+        raise
+
 
 def search_client_by_phone(phone_number: str) -> List[models.Client]:
     response = supabase.table("clients").select("*").eq("contact_number", phone_number).execute()

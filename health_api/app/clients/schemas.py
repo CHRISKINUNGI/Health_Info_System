@@ -1,8 +1,8 @@
-# Health_api/app/clients/schemas.py
-
+# app/clients/schemas.py
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
+from app.programs.schemas import ProgramBase  # Assuming you have a ProgramBase schema
 
 class ClientBase(BaseModel):
     first_name: str = Field(..., min_length=2, max_length=50, description="Client's first name")
@@ -30,6 +30,7 @@ class ClientUpdate(ClientBase):
 class Client(ClientBase):
     id: str = Field(..., description="Unique identifier of the client")
     created_at: datetime = Field(..., description="Timestamp when the client was registered")
+    programs: List[ProgramBase] = []  # Add the programs list to the Client model
 
     class Config:
         from_attributes = True

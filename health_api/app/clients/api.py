@@ -38,7 +38,7 @@ def list_all_clients(skip: int = Query(0, description="Number of clients to skip
         return services.get_all_clients(skip=skip, limit=limit)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    
+ 
 @router.get("/clients/{client_id}", response_model=schemas.Client)
 def get_client_profile(client_id: str):
     """
@@ -46,16 +46,23 @@ def get_client_profile(client_id: str):
     """
     try:
         client = services.get_client_profile(client_id)
-        if not client:
+        
+        if client is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Client not found"
+                detail=f"Client with ID '{client_id}' not found."
             )
+        
         return client
+
+    except HTTPException as http_ex:
+        # Re-raise the HTTPException so FastAPI can handle it properly
+        raise http_ex
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e)
+            detail=f"An unexpected error occurred: {str(e)}"
         )
 
 @router.get("/clients/search_by_phone/{phone_number}", response_model=List[schemas.Client])
