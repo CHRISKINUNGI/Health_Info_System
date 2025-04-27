@@ -12,6 +12,9 @@
 
 # Python specific
 __pycache__/
+__init__.py
+pytest_cache/
+pytest.ini
 *.pyc
 *.egg-info/
 dist/
