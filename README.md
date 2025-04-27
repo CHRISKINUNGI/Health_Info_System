@@ -62,8 +62,8 @@ Health_info_system/
 
 Each part of the project (backend and frontend) has its own detailed setup instructions.
 
-- 🛠️ **Backend Setup:** See [Health_api/README.md](Health_api/README.md)
-- 🎨 **Frontend Setup:** See [frontend/README.md](frontend/README.md)
+- 🛠️ **Backend Setup:** See [Health_api/README.md](health_api/README.md)
+- 🎨 **Frontend Setup:** See [frontend/README.md](frontend/README.md) | FUTURE
 
 > In short, you will set up the database (Supabase), run the FastAPI backend, and start the React frontend.
 

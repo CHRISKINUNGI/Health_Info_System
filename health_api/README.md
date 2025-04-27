@@ -29,29 +29,44 @@ It communicates seamlessly with a 💾 Supabase PostgreSQL database, ensuring da
 ## 📂 Directory Structure
 
 ```text
+
 Health_api/
-├── app/
-│   ├── __init__.py
-│   ├── main.py          # 🚀 Main application entry point (defines the FastAPI app)
-│   ├── database.py      # ⚙️ Database connection configuration
-│   ├── clients/
-│   │   ├── __init__.py
-│   │   ├── models.py    # 📝 Pydantic models for client data
-│   │   ├── api.py       # ➡️ FastAPI routes for clients
-│   │   └── utils.py     # (Optional) 🛠️ Helper functions for clients
-│   ├── programs/
-│   │   ├── __init__.py
-│   │   ├── models.py    # 📝 Pydantic models for health programs
-│   │   ├── api.py       # ➡️ FastAPI routes for programs
-│   │   └── utils.py     # (Optional) 🛠️ Helper functions for programs
-│   ├── enrollments/
-│   │   ├── __init__.py
-│   │   ├── models.py    # 📝 Pydantic models for enrollments
-│   │   ├── api.py       # ➡️ FastAPI routes for enrollments
-│   │   └── utils.py     # (Optional) 🛠️ Helper functions for enrollments
-│   └── schemas.py       # (Optional) ✅ Pydantic schemas for validation
-├── requirements.txt      # 📦 Python dependencies
-└── README.md              # ℹ️ Project documentation
+.
+├── app
+│   ├── auth
+│   │   ├── api.py
+│   │   ├── schemas.py
+│   │   └── services.py
+│   ├── clients
+│   │   ├── api.py
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   └── services.py
+│   ├── database.py
+│   ├── enrollments
+│   │   ├── api.py
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   └── services.py
+│   ├── main.py
+│   ├── programs
+│   │   ├── api.py
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   └── services.py
+│   ├── search
+│   │   ├── api.py
+│   │   └── services.py
+│   └── tests
+│       ├── test_auth.py
+│       ├── test_clients.py
+│       ├── test_programs.py
+│       └── test_search.py
+├── health_api_Documentation.json
+├── pytest.ini
+├── README.md
+├── requirements.txt
+
 
 ```
 
